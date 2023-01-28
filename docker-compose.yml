@@ -1,6 +1,10 @@
 version: '3.9'
+
+# 'nra' stand for nest-react-admin
+
 services:
   backend:
+    container_name: nra_backend
     build: .
     ports:
       - 8000:3000
@@ -11,6 +15,7 @@ services:
 
   db:
     image: mysql:5.7.22
+    container_name: nra_db
     restart: always
     environment:
       MYSQL_DATABASE: appdb
