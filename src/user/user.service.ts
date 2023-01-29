@@ -21,6 +21,7 @@ export class UserService {
     return this._userRepository.save({
       ...params,
       password: hashedPassword,
+      role: { id: params.role_id },
     });
   }
 
@@ -29,6 +30,15 @@ export class UserService {
   }
 
   async update(id: number, data: any): Promise<any> {
+    if (data.role_id) {
+      data = {
+        ...data,
+        role: { id: data.role_id },
+      };
+
+      delete data.role_id;
+    }
+    console.log(data);
     return this._userRepository.update(id, data);
   }
 
