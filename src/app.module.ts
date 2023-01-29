@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/models/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { CoreModule } from './core/core.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
     }),
     AuthModule,
+    CoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

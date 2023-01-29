@@ -4,28 +4,36 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { User } from './models/user.entity';
-import { RegisterDto } from '../auth/models/register.dto';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(User) private readonly _userRepository: Repository<User>,
   ) {}
 
   async all(): Promise<User[]> {
-    return this.userRepository.find();
+    return this._userRepository.find();
   }
 
-  async create(params: RegisterDto): Promise<User> {
-    const hashedPassword = await bcrypt.hash(params.password, 12);
+  async create(params): Promise<User> {
+    const hashedPassword = await bcrypt.hash('secret', 12);
 
-    return this.userRepository.save({
+    return this._userRepository.save({
       ...params,
       password: hashedPassword,
     });
   }
 
   async findOne(condition): Promise<User> {
-    return this.userRepository.findOne({ where: condition });
+    console.log(condition);
+    return this._userRepository.findOne({ where: condition });
+  }
+
+  async update(id: number, data: any): Promise<any> {
+    return this._userRepository.update(id, data);
+  }
+
+  async delete(id: number): Promise<any> {
+    return this._userRepository.delete(id);
   }
 }
