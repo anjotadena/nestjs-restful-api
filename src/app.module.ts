@@ -6,10 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/models/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
+import { RoleModule } from './role/role.module';
+import { Role } from './role/entities/role.entity';
 
 @Module({
   imports: [
-    UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'db',
@@ -17,11 +18,13 @@ import { CoreModule } from './core/core.module';
       username: 'developer',
       password: 'secret',
       database: 'appdb',
-      entities: [User],
+      entities: [User, Role],
       synchronize: true,
     }),
+    UserModule,
     AuthModule,
     CoreModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

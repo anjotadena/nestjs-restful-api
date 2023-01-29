@@ -25,7 +25,6 @@ export class UserService {
   }
 
   async findOne(condition): Promise<User> {
-    console.log(condition);
     return this._userRepository.findOne({ where: condition });
   }
 
