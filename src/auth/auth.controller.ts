@@ -1,12 +1,14 @@
 import {
   BadRequestException,
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   NotFoundException,
   Post,
   Req,
   Res,
+  UseInterceptors,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -15,6 +17,7 @@ import { Request, Response } from 'express';
 import { UserService } from '../user/user.service';
 import { RegisterDto } from './models/register.dto';
 
+@UseInterceptors(ClassSerializerInterceptor) // exlude column
 @Controller()
 export class AuthController {
   constructor(
@@ -35,7 +38,7 @@ export class AuthController {
   async login(
     @Body('email') email: string,
     @Body('password') password: string,
-    @Res({ passthrough: true }) response: Response,
+    @Res() response: Response,
   ) {
     const user = await this._userService.findOne({ email });
 

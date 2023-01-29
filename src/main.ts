@@ -14,6 +14,12 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
+  app.enableCors({
+    origin: '*',
+    // pass every request a cookie
+    credentials: true,
+  });
+
   await app.listen(3000);
 }
 bootstrap();
