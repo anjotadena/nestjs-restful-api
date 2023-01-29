@@ -8,6 +8,7 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
@@ -16,6 +17,7 @@ import { Request, Response } from 'express';
 
 import { UserService } from '../user/user.service';
 import { RegisterDto } from './models/register.dto';
+import { AuthGuard } from './auth.guard';
 
 @UseInterceptors(ClassSerializerInterceptor) // exlude column
 @Controller()
@@ -38,7 +40,7 @@ export class AuthController {
   async login(
     @Body('email') email: string,
     @Body('password') password: string,
-    @Res() response: Response,
+    @Res({ passthrough: true }) response: Response,
   ) {
     const user = await this._userService.findOne({ email });
 
@@ -57,6 +59,7 @@ export class AuthController {
     return user;
   }
 
+  @UseGuards(AuthGuard)
   @Get('user')
   async user(@Req() request: Request) {
     const data = await this._jwtService.verifyAsync(request.cookies?.jwt);
@@ -64,6 +67,7 @@ export class AuthController {
     return this._userService.findOne({ id: data?.id });
   }
 
+  @UseGuards(AuthGuard)
   @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
     response.clearCookie('jwt');
