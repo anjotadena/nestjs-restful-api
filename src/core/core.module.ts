@@ -10,5 +10,6 @@ import { jwtConstants } from 'src/auth/constants';
     }),
   ],
   exports: [JwtModule],
+  providers: [],
 })
 export class CoreModule {}
