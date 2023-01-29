@@ -7,6 +7,6 @@ export class UserController {
 
   @Get()
   async all() {
-    return this._userService.all();
+    return await this._userService.all();
   }
 }
