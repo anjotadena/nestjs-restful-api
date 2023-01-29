@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { User } from './models/user.entity';
-
+import { RegisterDto } from '../auth/models/register.dto';
 
 @Injectable()
 export class UserService {
@@ -16,7 +16,7 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  async create(params: any): Promise<User> {
+  async create(params: RegisterDto): Promise<User> {
     const hashedPassword = await bcrypt.hash(params.password, 12);
 
     return this.userRepository.save({
