@@ -24,4 +24,8 @@ export class UserService {
       password: hashedPassword,
     });
   }
+
+  async findOne(condition): Promise<User> {
+    return this.userRepository.findOne({ where: condition });
+  }
 }
