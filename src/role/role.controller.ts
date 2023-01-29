@@ -7,7 +7,6 @@ import {
   Post,
   Put,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { Role } from './entities/role.entity';

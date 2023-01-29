@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { RoleModule } from './role/role.module';
 import { Role } from './role/entities/role.entity';
+import { PermissionModule } from './permission/permission.module';
+import { Permission } from './permission/entities/permission.enityt';
 
 @Module({
   imports: [
@@ -18,13 +20,14 @@ import { Role } from './role/entities/role.entity';
       username: 'developer',
       password: 'secret',
       database: 'appdb',
-      entities: [User, Role],
+      entities: [User, Role, Permission],
       synchronize: true,
     }),
     UserModule,
     AuthModule,
     CoreModule,
     RoleModule,
+    PermissionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

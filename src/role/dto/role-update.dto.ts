@@ -1,4 +1,4 @@
-import { IsOptional } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class RoleUpdateDto {
   @IsOptional()
@@ -6,4 +6,8 @@ export class RoleUpdateDto {
 
   @IsOptional()
   description?: string;
+
+  @IsNotEmpty()
+  @IsNumber({}, { each: true })
+  permission_ids: number[];
 }

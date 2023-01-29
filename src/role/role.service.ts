@@ -14,15 +14,32 @@ export class RoleService {
   }
 
   async create(params: any): Promise<Role> {
-    return this._roleRepository.save(params);
+    const { permission_ids, ...data } = params;
+
+    return this._roleRepository.save({
+      ...data,
+      permissions: permission_ids.map((id) => Object.assign({}, { id })),
+    });
   }
 
   async findOne(condition): Promise<Role> {
-    return this._roleRepository.findOne({ where: condition });
+    return this._roleRepository.findOne({
+      where: condition,
+      relations: ['permissions'],
+    });
   }
 
-  async update(id: number, data: any): Promise<any> {
-    return this._roleRepository.update(id, data);
+  async update(id: number, params: any): Promise<any> {
+    const { permission_ids, ...data } = params;
+
+    await this._roleRepository.update(id, { name: data?.name });
+
+    const role = await this._roleRepository.findOne({ where: { id } });
+
+    return this._roleRepository.create({
+      ...role,
+      permissions: permission_ids.map((id) => Object.assign({}, { id })),
+    });
   }
 
   async delete(id: number): Promise<any> {
