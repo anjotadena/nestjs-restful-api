@@ -1,8 +1,10 @@
 import { IsNotEmpty, IsEmail, IsOptional, IsNumber } from 'class-validator';
 
 export class UserUpdateDto {
+  @IsOptional()
   first_name?: string;
 
+  @IsOptional()
   last_name?: string;
 
   @IsEmail()
@@ -11,5 +13,6 @@ export class UserUpdateDto {
 
   @IsNotEmpty()
   @IsNumber()
-  role_id: number;
+  @IsOptional()
+  role_id?: number;
 }

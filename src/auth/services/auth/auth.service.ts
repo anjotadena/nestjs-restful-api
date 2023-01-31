@@ -10,7 +10,7 @@ export class AuthService {
     const cookie = request.cookies?.jwt;
 
     const data = await this._jwtService.verifyAsync(cookie);
-
+    console.log({ data });
     return data?.id;
   }
 }
