@@ -18,6 +18,7 @@ import { Request, Response } from 'express';
 import { UserService } from '../user/user.service';
 import { RegisterDto } from './models/register.dto';
 import { AuthGuard } from './auth.guard';
+import { AuthService } from './services/auth/auth.service';
 
 @UseInterceptors(ClassSerializerInterceptor) // exlude column
 @Controller()
@@ -25,6 +26,7 @@ export class AuthController {
   constructor(
     private _userService: UserService,
     private _jwtService: JwtService,
+    private _authService: AuthService,
   ) {}
 
   @Post('register')
@@ -62,9 +64,9 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('user')
   async user(@Req() request: Request) {
-    const data = await this._jwtService.verifyAsync(request.cookies?.jwt);
+    const id = await this._authService.userId(request);
 
-    return this._userService.findOne({ id: data?.id });
+    return this._userService.findOne({ id });
   }
 
   @UseGuards(AuthGuard)
